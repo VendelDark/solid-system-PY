@@ -1,99 +1,107 @@
-function exibirMensagem(mensagem) {
-    const mensagemElement = document.getElementById('mensagem');
-    mensagemElement.textContent = mensagem;
-}
+// let deckId = '';
+// let jogadorPontuacao = 0;
+// let dealerPontuacao = 0;
 
-function embaralharBaralho() {
-    fetch('https://deckofcardsapi.com/api/deck/new/shuffle/')
-        .then(response => response.json())
-        .then(data => {
-            exibirMensagem('Baralho embaralhado com sucesso!');
-        })
-        .catch(error => {
-            console.error('Erro ao embaralhar baralho:', error);
-            exibirMensagem('Erro ao embaralhar baralho. Por favor, tente novamente.');
-        });
-}
+// function exibirMensagem(mensagem) {
+//     const mensagemElement = document.getElementById('mensagem');
+//     mensagemElement.textContent = mensagem;
+// }
 
-function desenharCartas() {
-    const deckId = prompt('Digite o ID do baralho:');
-    const count = prompt('Digite a quantidade de cartas a desenhar:');
+// function iniciarJogo() {
+//     fetch('https://deckofcardsapi.com/api/deck/new/shuffle/')
+//         .then(response => response.json())
+//         .then(data => {
+//             deckId = data.deck_id;
+//             exibirMensagem('Jogo iniciado. Clique em "Pedir Carta" para receber suas cartas.');
+//             jogadorPontuacao = 0;
+//             dealerPontuacao = 0;
+//             document.getElementById('pontuacao-jogador').textContent = '';
+//             document.getElementById('pontuacao-dealer').textContent = '';
+//             document.getElementById('cartas-jogador').innerHTML = '';
+//             document.getElementById('cartas-dealer').innerHTML = '';
+//         })
+//         .catch(error => {
+//             console.error('Erro ao iniciar jogo:', error);
+//             exibirMensagem('Erro ao iniciar jogo. Por favor, tente novamente.');
+//         });
+// }
 
-    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=${count}`)
-        .then(response => response.json())
-        .then(data => {
-            // Exibir as cartas desenhadas
-            const cartas = data.cards.map(card => `<img src="${card.image}" alt="${card.code}">`);
-            document.getElementById('cartas').innerHTML = cartas.join('');
-            exibirMensagem('Cartas desenhadas com sucesso!');
-        })
-        .catch(error => {
-            console.error('Erro ao desenhar cartas:', error);
-            exibirMensagem('Erro ao desenhar cartas. Por favor, tente novamente.');
-        });
-}
+// function pedirCarta() {
+//     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+//         .then(response => response.json())
+//         .then(data => {
+//             const carta = data.cards[0];
+//             const valorCarta = obterValorCarta(carta);
+//             jogadorPontuacao += valorCarta;
+//             document.getElementById('pontuacao-jogador').textContent = `Pontuação do Jogador: ${jogadorPontuacao}`;
+//             document.getElementById('cartas-jogador').innerHTML += `<img src="${carta.image}" alt="${carta.code}">`;
+//             if (jogadorPontuacao > 21) {
+//                 exibirMensagem('Você estourou! Fim de jogo.');
+//                 pararJogo();
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Erro ao pedir carta:', error);
+//             exibirMensagem('Erro ao pedir carta. Por favor, tente novamente.');
+//         });
+// }
 
-function embaralharPilha() {
-    const deckId = prompt('Digite o ID do baralho:');
-    const pileName = prompt('Digite o nome da pilha:');
+// function pararJogo() {
+//     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
+//         .then(response => response.json())
+//         .then(data => {
+//             const cartasDealer = data.cards;
+//             const valorCartasDealer = cartasDealer.map(carta => obterValorCarta(carta));
+//             dealerPontuacao = valorCartasDealer.reduce((total, valor) => total + valor, 0);
+//             document.getElementById('pontuacao-dealer').textContent = `Pontuação do Dealer: ${dealerPontuacao}`;
+//             cartasDealer.forEach(carta => {
+//                 document.getElementById('cartas-dealer').innerHTML += `<img src="${carta.image}" alt="${carta.code}">`;
+//             });
+//             while (dealerPontuacao < 17) {
+//                 pedirCartaDealer();
+//             }
+//             determinarVencedor();
+//         })
+//         .catch(error => {
+//             console.error('Erro ao parar jogo:', error);
+//             exibirMensagem('Erro ao parar jogo. Por favor, tente novamente.');
+//         });
+// }
 
-    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/pile/${pileName}/shuffle/`)
-        .then(response => response.json())
-        .then(data => {
-            exibirMensagem('Pilha embaralhada com sucesso!');
-        })
-        .catch(error => {
-            console.error('Erro ao embaralhar pilha:', error);
-            exibirMensagem('Erro ao embaralhar pilha. Por favor, tente novamente.');
-        });
-}
+// function pedirCartaDealer() {
+//     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+//         .then(response => response.json())
+//         .then(data => {
+//             const carta = data.cards[0];
+//             const valorCarta = obterValorCarta(carta);
+//             dealerPontuacao += valorCarta;
+//             document.getElementById('pontuacao-dealer').textContent = `Pontuação do Dealer: ${dealerPontuacao}`;
+//             document.getElementById('cartas-dealer').innerHTML += `<img src="${carta.image}" alt="${carta.code}">`;
+//         })
+//         .catch(error => {
+//             console.error('Erro ao pedir carta do Dealer:', error);
+//         });
+// }
 
-function listarCartasPilha() {
-    const deckId = prompt('Digite o ID do baralho:');
-    const pileName = prompt('Digite o nome da pilha:');
+// function determinarVencedor() {
+//     if (jogadorPontuacao > 21) {
+//         exibirMensagem('Você perdeu! Sua pontuação passou de 21.');
+//     } else if (dealerPontuacao > 21 || jogadorPontuacao > dealerPontuacao) {
+//         exibirMensagem('Parabéns! Você ganhou.');
+//     } else if (jogadorPontuacao < dealerPontuacao) {
+//         exibirMensagem('Você perdeu! O Dealer ganhou.');
+//     } else {
+//         exibirMensagem('Empate! Ninguém ganhou.');
+//     }
+// }
 
-    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/pile/${pileName}/list/`)
-        .then(response => response.json())
-        .then(data => {
-            // Exibir as cartas da pilha
-            const cartasPilha = data.piles[pileName].cards.map(card => `<img src="${card.image}" alt="${card.code}">`);
-            document.getElementById('cartasPilha').innerHTML = cartasPilha.join('');
-            exibirMensagem('Cartas da pilha listadas com sucesso!');
-        })
-        .catch(error => {
-            console.error('Erro ao listar cartas da pilha:', error);
-            exibirMensagem('Erro ao listar cartas da pilha. Por favor, tente novamente.');
-        });
-}
-
-function desenharCartasPilha() {
-    const deckId = prompt('Digite o ID do baralho:');
-    const pileName = prompt('Digite o nome da pilha:');
-
-    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/pile/${pileName}/draw/`)
-        .then(response => response.json())
-        .then(data => {
-            // Exibir as cartas desenhadas da pilha
-            const cartasPilhaDesenhadas = data.cards.map(card => `<img src="${card.image}" alt="${card.code}">`);
-            document.getElementById('cartasPilhaDesenhadas').innerHTML = cartasPilhaDesenhadas.join('');
-            exibirMensagem('Cartas da pilha desenhadas com sucesso!');
-        })
-        .catch(error => {
-            console.error('Erro ao desenhar cartas da pilha:', error);
-            exibirMensagem('Erro ao desenhar cartas da pilha. Por favor, tente novamente.');
-        });
-}
-
-function retornarCartas() {
-    const deckId = prompt('Digite o ID do baralho:');
-
-    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/pile/default/draw/?cards=AS,2S`)
-        .then(response => response.json())
-        .then(data => {
-            exibirMensagem('Cartas retornadas com sucesso!');
-        })
-        .catch(error => {
-            console.error('Erro ao retornar cartas:', error);
-            exibirMensagem('Erro ao retornar cartas. Por favor, tente novamente.');
-        });
-}
+// function obterValorCarta(carta) {
+//     const valor = carta.value;
+//     if (['JACK', 'QUEEN', 'KING'].includes(valor)) {
+//         return 10;
+//     } else if (valor === 'ACE') {
+//         return 11;
+//     } else {
+//         return parseInt(valor);
+//     }
+// }
