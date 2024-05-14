@@ -1,56 +1,38 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, jsonify
+from blackjack import iniciar_jogo, pedir_carta, parar_j
+
 import requests
+import json
 
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/embaralhar-baralho')
+# Função para embaralhar o baralho
 def embaralhar_baralho():
-    response = requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
+    response = requests.get("https://deckofcardsapi.com/api/deck/new/shuffle/")
     data = response.json()
-    return jsonify(data)
+    deck_id = data['deck_id']
+    return deck_id
 
-@app.route('/desenhar-cartas')
-def desenhar_cartas():
-    deck_id = request.args.get('deck_id')
-    count = request.args.get('count')
-    response = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/draw/?count={count}')
+# Função para desenhar cartas do baralho
+def desenhar_cartas(deck_id, count):
+    response = requests.get(f"https://deckofcardsapi.com/api/deck/{deck_id}/draw/?count={count}")
     data = response.json()
-    return jsonify(data)
+    cards = data['cards']
+    return cards
 
-@app.route('/embaralhar-pilha')
-def embaralhar_pilha():
-    deck_id = request.args.get('deck_id')
-    pile_name = request.args.get('pile_name')
-    response = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/shuffle/')
-    data = response.json()
-    return jsonify(data)
+# Função para iniciar o jogo
+def iniciar_jogo():
+    deck_id = embaralhar_baralho()
+    jogador = desenhar_cartas(deck_id, 2)
+    dealer = desenhar_cartas(deck_id, 2)
+    return deck_id, jogador, dealer
 
-@app.route('/listar-cartas-pilha')
-def listar_cartas_pilha():
-    deck_id = request.args.get('deck_id')
-    pile_name = request.args.get('pile_name')
-    response = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/list/')
-    data = response.json()
-    return jsonify(data)
+# Função para pedir uma carta
+def pedir_carta(deck_id):
+    carta = desenhar_cartas(deck_id, 1)
+    return carta
 
-@app.route('/desenhar-cartas-pilha')
-def desenhar_cartas_pilha():
-    deck_id = request.args.get('deck_id')
-    pile_name = request.args.get('pile_name')
-    response = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/draw/')
-    data = response.json()
-    return jsonify(data)
-
-@app.route('/retornar-cartas')
-def retornar_cartas():
-    deck_id = request.args.get('deck_id')
-    response = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/default/draw/?cards=AS,2S')
-    data = response.json()
-    return jsonify(data)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# Função para parar o jogo e mostrar o resultado
+def parar_jogo(deck_id, jogador, dealer):
+    # Lógica para determinar o vencedor e mostrar o resultado
+    # Aqui você deve implementar a lógica do jogo de Blackjack
+    resultado = "Implemente a lógica do jogo aqui"
+    return resultado

@@ -2,25 +2,23 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <h1 class="title">Blackjack</h1>
-    <button class="btn-cor" onclick="iniciarJogo()">Iniciar Jogo</button>
-    <button class="btn-cor" onclick="pedirCarta()">Pedir Carta</button>
-    <button class="btn-cor" onclick="pararJogo()">Parar Jogo</button>
-    <div id="mensagem" class="cor"></div>
-    <div id="pontuacao-jogador"></div>
-    <div id="pontuacao-dealer"></div>
-    <div id="cartas-jogador"></div>
-    <div id="cartas-dealer"></div>
+    <div id="game-container">
+        <!-- Aqui serão exibidas as cartas do jogador e do dealer -->
+    </div>
+    <div id="buttons-container">
+        <button id="iniciar-btn" onclick="iniciarJogo()">Iniciar Jogo</button>
+        <button id="pedir-btn" onclick="pedirCarta()">Pedir Carta</button>
+        <button id="parar-btn" onclick="pararJogo()">Parar</button>
+    </div>
 
+    <div id="mensagem"></div>
+
+    <script src="/static/script.js"></script>
 </body>
-<!-- <footer>
-    <button disabled class="button" data-text="Awesome">
-        <span class="actual-text">&nbsp;VINICIUS SIKORSKI&nbsp;</span>
-        <span aria-hidden="true" class="hover-text">&nbsp;&nbsp;</span>
-    </button>
-</footer> -->
 </html>
