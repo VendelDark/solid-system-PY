@@ -10,7 +10,6 @@ function iniciarJogo() {
         .then(response => response.json())
         .then(data => {
             exibirMensagem('Jogo iniciado com sucesso!');
-            // Aqui você pode implementar a lógica para exibir as cartas do jogador e do dealer
         })
         .catch(error => {
             console.error('Erro ao iniciar o jogo:', error);
@@ -23,7 +22,6 @@ function pedirCarta() {
     fetch('/pedir-carta')
         .then(response => response.json())
         .then(data => {
-            // Aqui você pode implementar a lógica para exibir a carta que foi pedida
             exibirMensagem('Carta pedida com sucesso!');
         })
         .catch(error => {
@@ -37,7 +35,6 @@ function pararJogo() {
     fetch('/parar-jogo')
         .then(response => response.json())
         .then(data => {
-            // Aqui você pode implementar a lógica para mostrar o resultado do jogo
             exibirMensagem('Jogo encerrado!');
         })
         .catch(error => {

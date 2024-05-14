@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
-from blackjack import iniciar_jogo, pedir_carta, parar_j
-
+from collections.abc import MutableMapping, MutableSet
+from collections import namedtuple
 import requests
 import json
 
@@ -32,7 +32,7 @@ def pedir_carta(deck_id):
 
 # Função para parar o jogo e mostrar o resultado
 def parar_jogo(deck_id, jogador, dealer):
-    # Lógica para determinar o vencedor e mostrar o resultado
-    # Aqui você deve implementar a lógica do jogo de Blackjack
+    # Lembrar de implementar aqui para determinar o vencedor e mostrar o resultado
+    #  Lembrar de implementar aqui a lógica do jogo de Blackjack
     resultado = "Implemente a lógica do jogo aqui"
     return resultado

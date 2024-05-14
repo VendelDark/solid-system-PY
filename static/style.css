@@ -30,11 +30,11 @@ button {
     font-family: cursive;
     text-align: center;
 }
-
+/* 
 .btn-cor{
 
 
-}
+} */
 
 .cor{
     
@@ -87,3 +87,4 @@ button {
     width: 100%;
     filter: drop-shadow(0 0 23px var(--animation-color))
   }
+  
