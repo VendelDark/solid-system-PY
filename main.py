@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from collections.abc import MutableMapping, MutableSet
 from collections import namedtuple
+from blackjack import iniciar_jogo, pedir_carta, parar_j
 import requests
 import json
 
