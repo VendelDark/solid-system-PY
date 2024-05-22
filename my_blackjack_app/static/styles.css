@@ -1,22 +1,22 @@
 /* Estilos para index.html */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #075e54;
-    color: #fff;
+    background-color: #2E8B57; /* Verde mais escuro para o fundo */
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
 .container {
     max-width: 600px;
+    width: 100%;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #ffffff; /* Verde claro para a área de jogo */
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
@@ -30,40 +30,57 @@ form {
     align-items: center;
 }
 
-.card-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.card {
-    width: 100px;
-    height: auto;
-    margin-right: 10px; /* Espaçamento entre as cartas */
-}
-
 input[type="radio"] {
     margin-bottom: 10px;
 }
 
 button {
     padding: 10px 20px;
-    background-color: #4caf50;
+    background-color: #4CAF50; /* Verde escuro */
     color: #fff;
-    border: none;
+    border: 2px solid #4CAF50; /* Borda verde escuro */
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, border-color 0.3s;
+    font-weight: bold;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #45a049; /* Verde mais escuro para o hover */
+    border-color: #45a049; /* Borda mais escura no hover */
 }
+
 
 p.message {
     margin-top: 20px;
     text-align: center;
-    color: #f44336;
+    color: red;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.cards img {
+    margin: 0 5px;
+    width: 80px;
+    height: auto;
+}
+
+.player-info {
+    color: #28a745;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.dealer-info {
+    color: #dc3545;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
 }
 
 /* Estilos para result.html */
@@ -75,10 +92,4 @@ a {
     display: block;
     text-align: center;
     margin-top: 20px;
-    color: #4caf50;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
 }

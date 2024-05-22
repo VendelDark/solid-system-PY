@@ -5,8 +5,11 @@ app = Flask(__name__)
 
 DECK_API_BASE_URL = "https://deckofcardsapi.com/api/deck"
 player_cards = []
-new_cards = []
+dealer_cards = []
 deck_id = None  # Inicializa a variável deck_id
+player_score = 0  # Inicializa a pontuação do jogador
+dealer_score = 0  # Inicializa a pontuação do dealer
+dealer_stopped = False  # Flag para indicar se o dealer parou
 
 def get_new_deck(deck_count=1):
     response = requests.get(f"{DECK_API_BASE_URL}/new/shuffle/?deck_count={deck_count}")
@@ -38,40 +41,72 @@ def calculate_score(cards):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    global player_cards, new_cards, deck_id  # Declarando as variáveis globais
+    global player_cards, dealer_cards, deck_id, player_score, dealer_score, dealer_stopped  # Declarando as variáveis globais
+    message = ""  # Inicializa a mensagem
+
     if request.method == 'POST':
         option = request.form['option']
+        player_score = calculate_score(player_cards)  # Calcula a pontuação do jogador antes de verificar a opção
+        dealer_stopped = False  # Reseta a flag do dealer
+
         if option == '1':  # Hit
             new_cards = draw_cards(deck_id, 1)
             player_cards.extend(new_cards)
             player_score = calculate_score(player_cards)
-            if player_score > 21:
-                message = f"Você estourou com uma pontuação de {player_score}!"
-                return render_template('index.html', message=message, player_cards=player_cards, player_score=player_score, deck_id=deck_id)
-            return render_template('index.html', player_cards=player_cards, player_score=player_score, deck_id=deck_id)
+            
+            # Ação do dealer
+            while dealer_score < 17:
+                dealer_cards.extend(draw_cards(deck_id, 1))
+                dealer_score = calculate_score(dealer_cards)
+
+            if dealer_score >= 17:
+                dealer_stopped = True
+
+            if player_score > 21 or player_score == 21 or dealer_score > 21 or dealer_score == 21:
+                return determine_winner()
+
+            message = "O dealer parou." if dealer_stopped else ""
+
+            return render_template('index.html', player_cards=player_cards, player_score=player_score, deck_id=deck_id, dealer_cards=dealer_cards, dealer_score=dealer_score, message=message)
+
         elif option == '2':  # Stand
-            dealer_cards = draw_cards(deck_id, 2)
-            dealer_score = calculate_score(dealer_cards)
-            result = ""
-            if 'player_score' in locals():
-                if dealer_score > 21 or dealer_score < player_score:
-                    result = "Você ganhou!"
-                elif dealer_score == player_score:
-                    result = "Empate!"
-                else:
-                    result = "O dealer ganhou!"
-            return render_template('result.html', player_cards=player_cards, player_score=player_score, dealer_cards=dealer_cards, dealer_score=dealer_score, result=result)
+            while dealer_score < 17:
+                dealer_cards.extend(draw_cards(deck_id, 1))
+                dealer_score = calculate_score(dealer_cards)
+
+            return determine_winner()
+        
         elif option == '3':  # Quit
             return "Obrigado por jogar! Até a próxima."
 
     # Estado inicial do jogo
     deck_id = get_new_deck(1)
-    initial_cards = draw_cards(deck_id, 2)
-    player_cards = initial_cards
+    player_cards = draw_cards(deck_id, 2)
+    dealer_cards = draw_cards(deck_id, 2)
     player_score = calculate_score(player_cards)
-    for card in player_cards:
-        card['image_url'] = card['image']  # Adiciona a URL da imagem à carta
-    return render_template('index.html', player_cards=player_cards, player_score=player_score, deck_id=deck_id)
+    dealer_score = calculate_score(dealer_cards)
+    dealer_stopped = False  # Reseta a flag do dealer
+
+    return render_template('index.html', player_cards=player_cards, player_score=player_score, deck_id=deck_id, dealer_cards=dealer_cards, dealer_score=dealer_score, message=message)
+
+def determine_winner():
+    global player_score, dealer_score
+    if player_score > 21:
+        result = f"Você estourou com uma pontuação de {player_score}! O dealer ganhou."
+    elif dealer_score > 21:
+        result = f"O dealer estourou com uma pontuação de {dealer_score}! Você ganhou."
+    elif player_score == 21:
+        result = "Você fez 21! Você ganhou."
+    elif dealer_score == 21:
+        result = "O dealer fez 21! O dealer ganhou."
+    elif player_score > dealer_score:
+        result = f"Você ganhou com uma pontuação de {player_score} contra {dealer_score} do dealer."
+    elif player_score < dealer_score:
+        result = f"O dealer ganhou com uma pontuação de {dealer_score} contra {player_score}."
+    else:
+        result = f"Empate com ambos tendo a pontuação de {player_score}."
+
+    return render_template('result.html', player_cards=player_cards, player_score=player_score, dealer_cards=dealer_cards, dealer_score=dealer_score, result=result)
 
 if __name__ == '__main__':
     app.run(debug=True)
