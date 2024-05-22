@@ -93,3 +93,19 @@ a {
     text-align: center;
     margin-top: 20px;
 }
+
+footer {
+    position: fixed; /* Fixa o footer na parte inferior da janela de visualização */
+    left: 0;
+    bottom: 0;
+    width: 100%; /* Ocupa toda a largura da janela */
+    text-align: center; /* Centraliza o conteúdo horizontalmente */
+    background-color: #2E8B57; /* Cor de fundo com opacidade para torná-lo sutil */
+    padding: 10px 0; /* Espaçamento interno para o conteúdo */
+    z-index: 999; /* Garante que o footer esteja acima de outros elementos */
+}
+
+.signature {
+    font-size: 12px; /* Tamanho da fonte pequeno para a assinatura */
+    color: rgba(0, 0, 0, 0.1); /* Cor quase invisível (preto com baixa opacidade) */
+}
