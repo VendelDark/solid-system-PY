@@ -1,2 +1,0 @@
-# solid-system-PY
-BlackJack

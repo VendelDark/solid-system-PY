@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Bem-vindo ao Blackjack!</h1>
+    <form method="POST">
+        <input type="hidden" name="deck_id" value="{{ deck_id }}">
+        <input type="hidden" name="player_cards" value="{% for card in player_cards %}{{ card.code }}, {% endfor %}">
+        <input type="hidden" name="player_score" value="{{ player_score }}">
+        <p>Sua pontuação: {{ player_score }}</p>
+        <p>Suas cartas:</p>
+        {% for card in player_cards %}
+            <img src="{{ card.image }}" alt="{{ card.code }}">
+        {% endfor %}
+        <label>O que você gostaria de fazer?</label><br>
+        <input type="radio" name="option" value="1"> Pedir carta<br>
+        <input type="radio" name="option" value="2"> Parar<br>
+        <input type="radio" name="option" value="3"> Sair<br>
+        <button type="submit">Enviar</button>
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+</body>
+</html>

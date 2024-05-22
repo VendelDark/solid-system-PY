@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack - Resultado</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Resultado do Jogo</h1>
+    <p>Sua pontuação: {{ player_score }}</p>
+    <p>Suas cartas:</p>
+    {% for card in player_cards %}
+        <img src="{{ card.image }}" alt="{{ card.code }}">
+    {% endfor %}
+    <p>Pontuação do dealer: {{ dealer_score }}</p>
+    <p>Cartas do dealer:</p>
+    {% for card in dealer_cards %}
+        <img src="{{ card.image }}" alt="{{ card.code }}">
+    {% endfor %}
+    <h2>{{ result }}</h2>
+    <a href="/">Jogar novamente</a>
+</body>
+</html>
