@@ -17,7 +17,15 @@ def get_new_deck(deck_count=1):
 
 def draw_cards(deck_id, count=2):
     response = requests.get(f"{DECK_API_BASE_URL}/{deck_id}/draw/?count={count}")
-    return response.json()['cards']
+    if response.status_code == 200:
+        data = response.json()
+        if 'cards' in data:
+            return data['cards']
+        else:
+            print("Erro: 'cards' não encontrado na resposta da API.")
+    else:
+        print(f"Erro ao acessar a API: {response.status_code}")
+    return []
 
 def calculate_score(cards):
     score = 0
@@ -38,6 +46,13 @@ def calculate_score(cards):
         score -= 10
         ace_count -= 1
     return score
+
+def is_blackjack(cards):
+    if len(cards) == 2:
+        suits = {card['suit'] for card in cards}
+        values = {card['value'] for card in cards}
+        return 'SPADES' in suits and 'CLUBS' in suits and ('ACE' in values and ('10' in values or 'JACK' in values or 'QUEEN' in values or 'KING' in values))
+    return False
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -62,7 +77,7 @@ def home():
             if dealer_score >= 17:
                 dealer_stopped = True
 
-            if player_score > 21 or player_score == 21 or dealer_score > 21 or dealer_score == 21:
+            if player_score > 21 or is_blackjack(player_cards) or dealer_score > 21 or is_blackjack(dealer_cards):
                 return determine_winner()
 
             message = "O dealer parou." if dealer_stopped else ""
@@ -79,6 +94,26 @@ def home():
         elif option == '3':  # Quit
             return "Obrigado por jogar! Até a próxima."
 
+        elif option == '4':  # Hit 2 cartas
+            new_cards = draw_cards(deck_id, 2)
+            player_cards.extend(new_cards)
+            player_score = calculate_score(player_cards)
+
+            # Ação do dealer
+            while dealer_score < 17:
+                dealer_cards.extend(draw_cards(deck_id, 1))
+                dealer_score = calculate_score(dealer_cards)
+
+            if dealer_score >= 17:
+                dealer_stopped = True
+
+            if player_score > 21 or is_blackjack(player_cards) or dealer_score > 21 or is_blackjack(dealer_cards):
+                return determine_winner()
+
+            message = "O dealer parou." if dealer_stopped else ""
+
+            return render_template('index.html', player_cards=player_cards, player_score=player_score, deck_id=deck_id, dealer_cards=dealer_cards, dealer_score=dealer_score, message=message)
+
     # Estado inicial do jogo
     deck_id = get_new_deck(1)
     player_cards = draw_cards(deck_id, 2)
@@ -90,11 +125,15 @@ def home():
     return render_template('index.html', player_cards=player_cards, player_score=player_score, deck_id=deck_id, dealer_cards=dealer_cards, dealer_score=dealer_score, message=message)
 
 def determine_winner():
-    global player_score, dealer_score
+    global player_score, dealer_score, player_cards, dealer_cards
     if player_score > 21:
         result = f"Você estourou com uma pontuação de {player_score}! O dealer ganhou."
     elif dealer_score > 21:
         result = f"O dealer estourou com uma pontuação de {dealer_score}! Você ganhou."
+    elif is_blackjack(player_cards):
+        result = "Você fez um Blackjack! Você ganhou."
+    elif is_blackjack(dealer_cards):
+        result = "O dealer fez um Blackjack! O dealer ganhou."
     elif player_score == 21:
         result = "Você fez 21! Você ganhou."
     elif dealer_score == 21:

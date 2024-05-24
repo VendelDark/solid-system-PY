@@ -21,6 +21,9 @@
                         <img src="{{ card.image }}" alt="{{ card.value }} de {{ card.suit }}">
                     {% endfor %}
                 </div>
+                {% if message %}
+                    <p class="message">{{ message }}</p>
+                {% endif %}
             </div>
             <div class="player-info">
                 <p>Sua pontuação: {{ player_score }}</p>
@@ -32,16 +35,14 @@
             </div>
             <label>O que você gostaria de fazer?</label><br>
             <input type="radio" name="option" value="1"> Pedir carta<br>
-            <input type="radio" name="option" value="2"> Parar<br>
-            <input type="radio" name="option" value="3"> Sair<br>
+            <!-- <input type="radio" name="option" value="2"> Pedir duas cartas<br> -->
+            <input type="radio" name="option" value="3"> Parar<br>
+            <input type="radio" name="option" value="4"> Sair<br>
             <button type="submit">Enviar</button>
         </form>
-        {% if message %}
-            <p class="message">{{ message }}</p>
-        {% endif %}
     </div>
+    <!-- <footer>
+        <p class="signature">Feito por Vinicius Mateus Sikorski</p>
+    </footer> -->
 </body>
-<footer>
-    <p class="signature">Feito por Vinicius Mateus Sikorski</p>
-</footer>
 </html>
