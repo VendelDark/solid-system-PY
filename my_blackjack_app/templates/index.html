@@ -15,11 +15,14 @@
             <input type="hidden" name="player_score" value="{{ player_score }}">
             <input type="hidden" name="dealer_score" value="{{ dealer_score }}">
             <div class="dealer-info">
-                <p>Pontuação do dealer: {{ dealer_score }}</p>
+                <!-- Mostrar a primeira carta do dealer e a parte de trás das outras -->
                 <div class="cards">
-                    {% for card in dealer_cards %}
-                        <img src="{{ card.image }}" alt="{{ card.value }} de {{ card.suit }}">
-                    {% endfor %}
+                    {% if dealer_cards %}
+                        <img src="{{ dealer_cards[0].image }}" alt="{{ dealer_cards[0].value }} de {{ dealer_cards[0].suit }}">
+                        {% for card in dealer_cards[1:] %}
+                            <img src="https://deckofcardsapi.com/static/img/back.png" alt="Carta virada">
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 {% if message %}
                     <p class="message">{{ message }}</p>
@@ -33,16 +36,25 @@
                     {% endfor %}
                 </div>
             </div>
-            <label>O que você gostaria de fazer?</label><br>
-            <input type="radio" name="option" value="1"> Pedir carta<br>
-            <!-- <input type="radio" name="option" value="2"> Pedir duas cartas<br> -->
-            <input type="radio" name="option" value="3"> Parar<br>
-            <input type="radio" name="option" value="4"> Sair<br>
+            <label>O que você gostaria de fazer?</label>
+            <br>
+            <label class="cor4" for="option4">Pedir duas cartas</label>
+            <input type="radio" id="option4" name="option" value="4">
+            <br>
+            <label class="cor1" for="option1">Pedir carta</label>
+            <input type="radio" id="option1" name="option" value="1">
+            <br>
+            <label class="cor2" for="option2">Parar</label>
+            <input type="radio" id="option2" name="option" value="2">
+            <br>
+            <!-- <label class="cor3" for="option3">Sair</label>
+            <input type="radio" id="option3" name="option" value="3">
+            <br> -->
             <button type="submit">Enviar</button>
         </form>
     </div>
-    <!-- <footer>
+    <footer>
         <p class="signature">Feito por Vinicius Mateus Sikorski</p>
-    </footer> -->
+    </footer>
 </body>
 </html>

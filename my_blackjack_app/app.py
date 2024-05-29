@@ -51,7 +51,7 @@ def is_blackjack(cards):
     if len(cards) == 2:
         suits = {card['suit'] for card in cards}
         values = {card['value'] for card in cards}
-        return 'SPADES' in suits and 'CLUBS' in suits and ('ACE' in values and ('10' in values or 'JACK' in values or 'QUEEN' in values or 'KING' in values))
+        return 'ACE' in values and any(v in values for v in ['10', 'JACK', 'QUEEN', 'KING'])
     return False
 
 @app.route('/', methods=['GET', 'POST'])

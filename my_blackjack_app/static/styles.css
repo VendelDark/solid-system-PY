@@ -1,9 +1,8 @@
-/* Estilos para index.html */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #2E8B57; /* Verde mais escuro para o fundo */
+    background-color: #2E8B57;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +13,7 @@ body {
     max-width: 600px;
     width: 100%;
     padding: 20px;
-    background-color: #ffffff; /* Verde claro para a área de jogo */
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -36,9 +35,10 @@ input[type="radio"] {
 
 button {
     padding: 10px 20px;
-    background-color: #4CAF50; /* Verde escuro */
+    background-color: #4CAF50;
     color: #fff;
-    border: 2px solid #4CAF50; /* Borda verde escuro */
+    border: 2px;
+    solid: #4CAF50;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
@@ -46,8 +46,8 @@ button {
 }
 
 button:hover {
-    background-color: #45a049; /* Verde mais escuro para o hover */
-    border-color: #45a049; /* Borda mais escura no hover */
+    background-color: #45a049;
+    border-color: #45a049;
 }
 
 p.message {
@@ -82,7 +82,6 @@ p.message {
     margin: 10px 0;
 }
 
-/* Estilos para result.html */
 h1, h2 {
     text-align: center;
 }
@@ -94,17 +93,33 @@ a {
 }
 
 footer {
-    position: fixed; /* Fixa o footer na parte inferior da janela de visualização */
+    position: fixed;
     left: 0;
     bottom: 0;
-    width: 100%; /* Ocupa toda a largura da janela */
-    text-align: center; /* Centraliza o conteúdo horizontalmente */
-    background-color: #2E8B57; /* Cor de fundo com opacidade para torná-lo sutil */
-    padding: 10px 0; /* Espaçamento interno para o conteúdo */
-    z-index: 999; /* Garante que o footer esteja acima de outros elementos */
+    width: 100%;
+    text-align: center;
+    background-color: #2E8B57;
+    padding: 10px 0;
+    z-index: 999;
 }
 
 .signature {
-    font-size: 12px; /* Tamanho da fonte pequeno para a assinatura */
-    color: rgba(0, 0, 0, 0.1); /* Cor quase invisível (preto com baixa opacidade) */
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.1);
+}
+
+.cor4{
+ color: brown;
+}
+
+.cor3{
+color: rgb(141, 0, 0);
+}
+
+.cor2{
+  color: #28a745;
+}
+
+.cor1{
+color: rgb(174, 177, 0);
 }
